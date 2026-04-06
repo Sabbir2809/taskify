@@ -1,0 +1,68 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// enum
+enum Role {
+  ADMIN
+  USER
+}
+
+enum TaskStatus {
+  PENDING
+  PROCESSING
+  DONE
+}
+
+enum ActionType {
+  TASK_CREATED
+  TASK_UPDATED
+  TASK_DELETED
+  STATUS_CHANGED
+  TASK_ASSIGNED
+}
+
+// schema model
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String
+  role      Role     @default(USER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  assignedTasks Task[]     @relation("AssignedTasks")
+  auditLogs     AuditLog[] @relation("ActorLogs")
+}
+
+model Task {
+  id             String     @id @default(cuid())
+  title          String
+  description    String?
+  status         TaskStatus @default(PENDING)
+  assignedUserId String?
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
+
+  assignedUser User?      @relation("AssignedTasks", fields: [assignedUserId], references: [id], onDelete: SetNull)
+  auditLogs    AuditLog[] @relation("TaskLogs")
+}
+
+model AuditLog {
+  id           String     @id @default(cuid())
+  actorId      String
+  actionType   ActionType
+  targetTaskId String?
+  previousData Json?
+  newData      Json?
+  createdAt    DateTime   @default(now())
+
+  actor      User  @relation("ActorLogs", fields: [actorId], references: [id])
+  targetTask Task? @relation("TaskLogs", fields: [targetTaskId], references: [id], onDelete: SetNull)
+}
