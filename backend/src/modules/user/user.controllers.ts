@@ -13,15 +13,15 @@ const getUsers = asyncHandler(async (req: Request, res: Response) => {
     statusCode: 200,
     success: true,
     message: "Users retrieved successfully",
-    data: result.users,
     meta: result.meta,
+    data: result.users,
   });
 });
 
 const getUserById = asyncHandler(async (req: Request, res: Response) => {
-  const id = req.params.id as string;
+  const userId = req.params.id as string;
 
-  const result = await userServices.getUserByIdFromDB(id);
+  const result = await userServices.getUserByIdFromDB(userId);
 
   sendResponse(res, {
     statusCode: 200,

@@ -2,40 +2,42 @@ import { Role } from "@prisma/client";
 import { NextFunction, Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import env from "../config/env";
-import { AppError, AuthError } from "../utils/AppError";
+import { JWTPayload } from "../types";
+import { AuthError, ForbiddenError } from "../utils/AppError";
+import { asyncHandler } from "../utils/asyncHandler";
 
-interface JwtPayload {
-  id: string;
-  email: string;
-  name: string;
-  role: Role;
-}
+export function authGuard(...requiredRoles: Role[]) {
+  return asyncHandler(
+    async (req: Request, res: Response, next: NextFunction) => {
+      const authHeader = req.headers.authorization;
+      const token = authHeader?.split(" ")[1];
 
-export function authGuard(...roles: Role[]) {
-  return function (req: Request, res: Response, next: NextFunction): void {
-    const authHeader = req.headers.authorization;
+      // 🔐 Check token existence
+      if (!token) {
+        throw new AuthError("Unauthorized! Please login.");
+      }
 
-    if (!authHeader || !authHeader.startsWith("Bearer ")) {
-      throw new AuthError("Authentication token missing! Please login.");
-    }
+      let decodedToken: JWTPayload;
 
-    const token = authHeader.split(" ")[1];
+      // 🔍 Verify token
+      try {
+        decodedToken = jwt.verify(
+          token,
+          env.jwtSecret as jwt.Secret
+        ) as JWTPayload;
+      } catch (error) {
+        throw new AuthError("Invalid or expired token.");
+      }
 
-    try {
-      const decoded = jwt.verify(
-        token,
-        env.jwtSecret as jwt.Secret
-      ) as JwtPayload;
-      req.user = decoded;
+      // 👤 Attach user to request
+      req.user = decodedToken;
 
-      // check authorization
-      if (roles.length && !roles.includes(decoded.role)) {
-        throw new AppError("Forbidden Access!", 403);
+      // 🚫 Role-based authorization
+      if (requiredRoles.length && !requiredRoles.includes(decodedToken.role)) {
+        throw new ForbiddenError("Forbidden Access!");
       }
 
       next();
-    } catch (error) {
-      throw new AuthError("Invalid or expired token");
     }
-  };
+  );
 }

@@ -5,7 +5,7 @@ import { AuthError, NotFoundError } from "../../utils/AppError";
 import prisma from "../../utils/prisma";
 import { LoginDto } from "./auth.validations";
 
-const loginUser = async (dto: LoginDto) => {
+const loginUserFromDB = async (dto: LoginDto) => {
   const user = await prisma.user.findUnique({
     where: { email: dto.email },
   });
@@ -41,7 +41,7 @@ const loginUser = async (dto: LoginDto) => {
   };
 };
 
-const getUserById = async (userId: string) => {
+const getUserByIdFromDB = async (userId: string) => {
   const user = await prisma.user.findUnique({
     where: { id: userId },
     select: {
@@ -60,6 +60,6 @@ const getUserById = async (userId: string) => {
 };
 
 export const authServices = {
-  loginUser,
-  getUserById,
+  loginUserFromDB,
+  getUserByIdFromDB,
 };

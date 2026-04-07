@@ -2,7 +2,7 @@ import cors from "cors";
 import express from "express";
 import env from "./config/env";
 import globalErrorHandler from "./middlewares/globalErrorHandler";
-import handleNotFound from "./middlewares/handleNotFound";
+import notFoundHandler from "./middlewares/NotFoundHandler";
 import router from "./routes";
 
 const app = express();
@@ -12,7 +12,7 @@ const app = express();
 // ========================
 app.use(
   cors({
-    origin: env.frontendUrl,
+    origin: env.frontendUrl ?? "*",
     credentials: true,
   })
 );
@@ -39,6 +39,6 @@ app.get("/", (req, res) => {
 // Global Error Handler
 // ========================
 app.use(globalErrorHandler);
-app.use(handleNotFound);
+app.use(notFoundHandler);
 
 export default app;

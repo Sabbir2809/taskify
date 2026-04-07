@@ -1,5 +1,5 @@
 import { ActionType, Role } from "@prisma/client";
-import { ForbiddenError, NotFoundError } from "../../utils/AppError";
+import { NotFoundError } from "../../utils/AppError";
 import prisma from "../../utils/prisma";
 import {
   CreateTaskDto,
@@ -88,21 +88,13 @@ const getTasksFromDB = async (
   };
 };
 
-const getTaskByIdFromDB = async (
-  id: string,
-  actorId: string,
-  actorRole: Role
-) => {
+const getTaskByIdFromDB = async (taskId: string) => {
   const task = await prisma.task.findUnique({
-    where: { id },
+    where: { id: taskId },
     select: taskSelect,
   });
 
   if (!task) throw new NotFoundError("Task not found");
-
-  if (actorRole === Role.USER && task.assignedUserId !== actorId) {
-    throw new ForbiddenError("Access denied");
-  }
 
   return task;
 };
@@ -132,11 +124,11 @@ const createTaskIntoDB = async (dto: CreateTaskDto, actorId: string) => {
 };
 
 const updateTaskIntoDB = async (
-  id: string,
+  taskId: string,
   dto: UpdateTaskDto,
   actorId: string
 ) => {
-  const existing = await prisma.task.findUnique({ where: { id } });
+  const existing = await prisma.task.findUnique({ where: { id: taskId } });
   if (!existing) throw new NotFoundError("Task not found");
 
   if (dto.assignedUserId !== undefined && dto.assignedUserId !== null) {
@@ -147,7 +139,7 @@ const updateTaskIntoDB = async (
   }
 
   const updated = await prisma.task.update({
-    where: { id },
+    where: { id: taskId },
     data: dto,
     select: taskSelect,
   });
@@ -161,7 +153,7 @@ const updateTaskIntoDB = async (
   await createAuditLogIntoDB({
     actorId,
     actionType,
-    targetTaskId: id,
+    targetTaskId: taskId,
     previousData: existing,
     newData: updated,
   });
@@ -170,20 +162,15 @@ const updateTaskIntoDB = async (
 };
 
 const updateTaskStatusIntoDB = async (
-  id: string,
+  taskId: string,
   dto: UpdateTaskStatusDto,
-  actorId: string,
-  actorRole: Role
+  actorId: string
 ) => {
-  const existing = await prisma.task.findUnique({ where: { id } });
+  const existing = await prisma.task.findUnique({ where: { id: taskId } });
   if (!existing) throw new NotFoundError("Task not found");
 
-  if (actorRole === Role.USER && existing.assignedUserId !== actorId) {
-    throw new ForbiddenError("Access denied");
-  }
-
   const updated = await prisma.task.update({
-    where: { id },
+    where: { id: taskId },
     data: { status: dto.status },
     select: taskSelect,
   });
@@ -191,7 +178,7 @@ const updateTaskStatusIntoDB = async (
   await createAuditLogIntoDB({
     actorId,
     actionType: ActionType.STATUS_CHANGED,
-    targetTaskId: id,
+    targetTaskId: taskId,
     previousData: { status: existing.status },
     newData: { status: dto.status },
   });
@@ -199,11 +186,11 @@ const updateTaskStatusIntoDB = async (
   return updated;
 };
 
-const deleteTaskFromDB = async (id: string, actorId: string) => {
-  const existing = await prisma.task.findUnique({ where: { id } });
+const deleteTaskFromDB = async (taskId: string, actorId: string) => {
+  const existing = await prisma.task.findUnique({ where: { id: taskId } });
   if (!existing) throw new NotFoundError("Task not found");
 
-  await prisma.task.delete({ where: { id } });
+  await prisma.task.delete({ where: { id: taskId } });
 
   await createAuditLogIntoDB({
     actorId,

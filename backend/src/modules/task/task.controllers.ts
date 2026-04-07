@@ -31,10 +31,9 @@ const getTasks = asyncHandler(async (req: Request, res: Response) => {
 });
 
 const getTaskById = asyncHandler(async (req: Request, res: Response) => {
-  const user = getUser(req);
-  const id = req.params.id as string;
+  const taskId = req.params.id as string;
 
-  const result = await taskServices.getTaskByIdFromDB(id, user.id, user.role);
+  const result = await taskServices.getTaskByIdFromDB(taskId);
 
   sendResponse(res, {
     statusCode: 200,
@@ -61,9 +60,9 @@ const createTask = asyncHandler(async (req: Request, res: Response) => {
 const updateTask = asyncHandler(async (req: Request, res: Response) => {
   const dto = updateTaskSchema.parse(req.body);
   const user = getUser(req);
-  const id = req.params.id as string;
+  const taskId = req.params.id as string;
 
-  const result = await taskServices.updateTaskIntoDB(id, dto, user.id);
+  const result = await taskServices.updateTaskIntoDB(taskId, dto, user.id);
 
   sendResponse(res, {
     statusCode: 200,
@@ -76,13 +75,12 @@ const updateTask = asyncHandler(async (req: Request, res: Response) => {
 const updateTaskStatus = asyncHandler(async (req: Request, res: Response) => {
   const dto = updateTaskStatusSchema.parse(req.body);
   const user = getUser(req);
-  const id = req.params.id as string;
+  const taskId = req.params.id as string;
 
   const result = await taskServices.updateTaskStatusIntoDB(
-    id,
+    taskId,
     dto,
-    user.id,
-    user.role
+    user.id
   );
 
   sendResponse(res, {
@@ -95,9 +93,9 @@ const updateTaskStatus = asyncHandler(async (req: Request, res: Response) => {
 
 const deleteTask = asyncHandler(async (req: Request, res: Response) => {
   const user = getUser(req);
-  const id = req.params.id as string;
+  const taskId = req.params.id as string;
 
-  await taskServices.deleteTaskFromDB(id, user.id);
+  await taskServices.deleteTaskFromDB(taskId, user.id);
 
   sendResponse(res, {
     statusCode: 200,

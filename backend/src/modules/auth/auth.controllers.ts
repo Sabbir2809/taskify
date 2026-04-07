@@ -7,7 +7,7 @@ import { loginSchema } from "./auth.validations";
 export const loginUser = asyncHandler(async (req: Request, res: Response) => {
   const dto = loginSchema.parse(req.body);
 
-  const result = await authServices.loginUser(dto);
+  const result = await authServices.loginUserFromDB(dto);
 
   sendResponse(res, {
     statusCode: 200,
@@ -21,7 +21,7 @@ export const getCurrentUser = asyncHandler(
   async (req: Request, res: Response) => {
     const userId = req.user?.id as string;
 
-    const result = await authServices.getUserById(userId);
+    const result = await authServices.getUserByIdFromDB(userId);
 
     sendResponse(res, {
       statusCode: 200,

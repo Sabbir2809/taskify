@@ -43,9 +43,9 @@ const getUsersFromDB = async (query: GetUsersQuery) => {
   };
 };
 
-const getUserByIdFromDB = async (id: string) => {
+const getUserByIdFromDB = async (userId: string) => {
   const user = await prisma.user.findUnique({
-    where: { id },
+    where: { id: userId },
     select: {
       id: true,
       email: true,
