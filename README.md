@@ -65,38 +65,45 @@ Each log captures: actor, action type, target task, previous data, new data, tim
 
 ---
 
+## Demo Credentials
+
+| Role  | Email             | Password |
+| ----- | ----------------- | -------- |
+| Admin | admin@taskify.com | admin123 |
+| User  | user@taskify.com  | user123  |
+
 ## API Reference
 
 ### Auth
 
-| Method | Endpoint        | Access | Description                 |
-| ------ | --------------- | ------ | --------------------------- |
-| POST   | /api/auth/login | Public | Login with email + password |
-| GET    | /api/auth/me    | Auth   | Get current user            |
+| Method | Endpoint           | Access | Description                 |
+| ------ | ------------------ | ------ | --------------------------- |
+| POST   | /api/v1/auth/login | Public | Login with email + password |
+| GET    | /api/v1/auth/me    | Auth   | Get current user            |
 
 ### Tasks
 
-| Method | Endpoint              | Access | Description           |
-| ------ | --------------------- | ------ | --------------------- |
-| GET    | /api/tasks            | Auth   | List tasks (filtered) |
-| GET    | /api/tasks/:id        | Auth   | Get single task       |
-| POST   | /api/tasks            | Admin  | Create task           |
-| PUT    | /api/tasks/:id        | Admin  | Update task           |
-| DELETE | /api/tasks/:id        | Admin  | Delete task           |
-| PATCH  | /api/tasks/:id/status | Auth   | Update task status    |
+| Method | Endpoint                 | Access | Description           |
+| ------ | ------------------------ | ------ | --------------------- |
+| GET    | /api/v1/tasks            | Auth   | List tasks (filtered) |
+| GET    | /api/v1/tasks/:id        | Auth   | Get single task       |
+| POST   | /api/v1/tasks            | Admin  | Create task           |
+| PUT    | /api/v1/tasks/:id        | Admin  | Update task           |
+| DELETE | /api/v1/tasks/:id        | Admin  | Delete task           |
+| PATCH  | /api/v1/tasks/:id/status | Auth   | Update task status    |
 
 ### Users
 
-| Method | Endpoint       | Access | Description    |
-| ------ | -------------- | ------ | -------------- |
-| GET    | /api/users     | Admin  | List all users |
-| GET    | /api/users/:id | Admin  | Get user by ID |
+| Method | Endpoint          | Access | Description    |
+| ------ | ----------------- | ------ | -------------- |
+| GET    | /api/v1/users     | Admin  | List all users |
+| GET    | /api/v1/users/:id | Admin  | Get user by ID |
 
 ### Audit Logs
 
-| Method | Endpoint        | Access | Description     |
-| ------ | --------------- | ------ | --------------- |
-| GET    | /api/audit-logs | Admin  | List audit logs |
+| Method | Endpoint           | Access | Description     |
+| ------ | ------------------ | ------ | --------------- |
+| GET    | /api/v1/audit-logs | Admin  | List audit logs |
 
 ---
 
