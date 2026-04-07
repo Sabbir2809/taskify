@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { auditLogs } from "../modules/auditLog/auditLog.routes";
 import { authRoutes } from "../modules/auth/auth.routes";
 import { taskRoutes } from "../modules/task/task.routes";
 import { userRoutes } from "../modules/user/user.routes";
@@ -17,6 +18,10 @@ const moduleRoutes = [
   {
     path: "/tasks",
     route: taskRoutes,
+  },
+  {
+    path: "/audit-logs",
+    route: auditLogs,
   },
 ];
 
