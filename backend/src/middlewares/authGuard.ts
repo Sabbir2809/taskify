@@ -11,42 +11,31 @@ interface JwtPayload {
   role: Role;
 }
 
-// Authenticate (who are you)
-export function authenticate(
-  req: Request,
-  res: Response,
-  next: NextFunction
-): void {
-  const authHeader = req.headers.authorization;
-
-  if (!authHeader || !authHeader.startsWith("Bearer ")) {
-    throw new AuthError("Authentication token missing! Please Login..");
-  }
-
-  const token = authHeader.split(" ")[1];
-
-  try {
-    const decoded = jwt.verify(token, env.jwtSecret as jwt.Secret);
-
-    req.user = decoded as JwtPayload;
-    console.log(decoded);
-    next();
-  } catch (error) {
-    throw new AuthError("Invalid or expired token");
-  }
-}
-
-// Authorize (what can you do)
-export function authorize(...roles: Role[]) {
+export function authGuard(...roles: Role[]) {
   return function (req: Request, res: Response, next: NextFunction): void {
-    if (!req.user) {
-      throw new AppError("Not authenticated", 401);
+    const authHeader = req.headers.authorization;
+
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      throw new AuthError("Authentication token missing! Please login.");
     }
 
-    if (roles.length && !roles.includes(req.user.role)) {
-      throw new AppError("Forbidden Access!", 403);
-    }
+    const token = authHeader.split(" ")[1];
 
-    next();
+    try {
+      const decoded = jwt.verify(
+        token,
+        env.jwtSecret as jwt.Secret
+      ) as JwtPayload;
+      req.user = decoded;
+
+      // check authorization
+      if (roles.length && !roles.includes(decoded.role)) {
+        throw new AppError("Forbidden Access!", 403);
+      }
+
+      next();
+    } catch (error) {
+      throw new AuthError("Invalid or expired token");
+    }
   };
 }

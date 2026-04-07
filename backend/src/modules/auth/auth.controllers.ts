@@ -32,7 +32,7 @@ export const getCurrentUser = asyncHandler(
   }
 );
 
-export const AuthControllers = {
+export const authControllers = {
   loginUser,
   getCurrentUser,
 };
