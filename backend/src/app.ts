@@ -1,8 +1,8 @@
 import cors from "cors";
 import express from "express";
 import env from "./config/env";
-import { globalErrorHandler } from "./middleware/globalErrorHandler";
-import notFound from "./middleware/notFound";
+import globalErrorHandler from "./middlewares/globalErrorHandler";
+import handleNotFound from "./middlewares/handleNotFound";
 import router from "./routes";
 
 const app = express();
@@ -39,6 +39,6 @@ app.get("/", (req, res) => {
 // Global Error Handler
 // ========================
 app.use(globalErrorHandler);
-app.use(notFound);
+app.use(handleNotFound);
 
 export default app;
