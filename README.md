@@ -105,27 +105,46 @@ Each log captures: actor, action type, target task, previous data, new data, tim
 | ------ | ------------------ | ------ | --------------- |
 | GET    | /api/v1/audit-logs | Admin  | List audit logs |
 
+### Dashboard Stats
+
+| Method | Endpoint                | Access | Description          |
+| ------ | ----------------------- | ------ | -------------------- |
+| GET    | /api/v1/dashboard/admin | Admin  | statistics for admin |
+| GET    | /api/v1/dashboard/admin | User   | statistics for user  |
+
 ---
 
-## Architecture
+## Getting Started
 
-Follows Clean Architecture with layered separation:
+### Prerequisites
 
-```
-Request → Route → Controller → Service → Model (Prisma)
-```
+- Node.js v22 (Run Time)
+- PostgreSQL 16 (Database)
+- npm or yarn (Package Manager)
+- Docker
 
-- **Routes** — define endpoints and apply middleware
-- **Controllers** — parse/validate input, call service, return response
-- **Services** — all business logic, DB operations, audit log creation
-- **Middleware** — authentication, authorization, error handling
+### Backend Setup Without Docker
 
-All API responses follow the format:
+```bash
+# 1. Clone repository and navigate to backend
+git clone https://github.com/sabbir2809/taskify.git
+cd taskify/backend
 
-```json
-{
-  "success": true,
-  "message": "...",
-  "data": {}
-}
+# 2. Install dependencies
+npm install # or yarn install
+
+# 3. Copy example environment file and update if needed
+cp .env.example .env
+
+# 4. Generate Prisma client for database access
+npx prisma generate
+
+# 5. Run database migrations (creates tables)
+npx prisma migrate dev --name init
+
+# 6. Seed database with initial data
+npm run db:seed
+
+# 7. Start development server
+npm run dev # or yarn dev
 ```

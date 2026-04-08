@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { auditLogs } from "../modules/auditLog/auditLog.routes";
 import { authRoutes } from "../modules/auth/auth.routes";
+import { dashboardRoutes } from "../modules/dashboard/dashboard.routes";
 import { taskRoutes } from "../modules/task/task.routes";
 import { userRoutes } from "../modules/user/user.routes";
 
@@ -22,6 +23,10 @@ const moduleRoutes = [
   {
     path: "/audit-logs",
     route: auditLogs,
+  },
+  {
+    path: "/dashboard",
+    route: dashboardRoutes,
   },
 ];
 
