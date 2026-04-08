@@ -35,10 +35,9 @@ app.get("/", (req, res) => {
   });
 });
 
-// ========================
-// Global Error Handler
-// ========================
+// global error handler
 app.use(globalErrorHandler);
+// 404 handler
 app.use(notFoundHandler);
 
 export default app;
