@@ -2,7 +2,7 @@ import cors from "cors";
 import express from "express";
 import env from "./config/env";
 import globalErrorHandler from "./middlewares/globalErrorHandler";
-import notFoundHandler from "./middlewares/NotFoundHandler";
+import notFoundHandler from "./middlewares/notFoundHandler";
 import router from "./routes";
 
 const app = express();
