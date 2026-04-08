@@ -1,3 +1,6 @@
+import { RouterProvider } from "react-router-dom";
+import { routers } from "./routes";
+
 export default function App() {
-  return <div>Taskify - Task Management System</div>;
+  return <RouterProvider router={routers} />;
 }
