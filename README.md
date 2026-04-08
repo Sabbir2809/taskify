@@ -148,3 +148,20 @@ npm run db:seed
 # 7. Start development server
 npm run dev # or yarn dev
 ```
+
+### Frontend Setup Without Docker
+
+```bash
+# 1. Clone repository and navigate to frontend
+git clone https://github.com/sabbir2809/taskify.git
+cd taskify/frontend
+
+# 2. Install dependencies
+npm install   # or yarn install
+
+# 3. Copy example environment file and update if needed
+cp .env.example .env
+
+# 4. Start development server
+npm run dev   # or yarn dev
+```
