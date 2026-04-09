@@ -130,7 +130,11 @@ Each log captures: actor, action type, target task, previous data, new data, tim
 git clone https://github.com/sabbir2809/taskify.git
 cd taskify/backend
 
+# 2. Build and Run Containers
 docker-compose up --build
+
+# 3. Stop Containers and Remove Volumes
+Stop Containers and Remove Volumes
 ```
 
 ### Backend Setup Without Docker
