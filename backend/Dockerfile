@@ -20,4 +20,4 @@ RUN npx prisma generate
 EXPOSE 5000
 
 # Run commands to setup DB and start backend server
-CMD ["sh", "-c", "npx prisma migrate deploy && npx tsx prisma/seed.ts && npx tsx watch src/server.ts"]
+CMD ["sh", "-c", "npm run db:generate && npm run db:push && npm run db:seed && npm run dev"]
