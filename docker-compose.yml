@@ -1,0 +1,57 @@
+services:
+  # ----------------------
+  # PostgreSQL Database
+  # ----------------------
+  postgres:
+    image: postgres:16
+    container_name: taskify-postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    # environment:
+    #   POSTGRES_USER: postgres
+    #   POSTGRES_PASSWORD: postgres
+    #   POSTGRES_DB: taskify
+    env_file:
+      - ./backend/.env
+    # ports:
+    #   - "5432:5432"
+
+  # ----------------------
+  # Backend
+  # ----------------------
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: taskify-backend
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./backend:/app
+    env_file:
+      - ./backend/.env
+    depends_on:
+      - taskify-postgres
+
+  # ----------------------
+  # Frontend
+  # ----------------------
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: taskify-frontend
+    ports:
+      - "5173:5173"
+    env_file:
+      - ./frontend/.env
+    volumes:
+      - ./frontend:/app
+    depends_on:
+      - taskify-backend
+
+# ----------------------
+# Volumes
+# ----------------------
+volumes:
+  postgres_data:

@@ -10,14 +10,14 @@ A production-ready full-stack task management system with role-based access cont
 - Token stored in Cookies, injected via Axios interceptor
 - Protected routes with role-based redirects
 
-### Admin Capabilities
+### Admin
 
 - Create, update, delete tasks
 - Assign tasks to users
 - Filter tasks by status, user or search query
 - View full audit log of all system actions
 
-### User Capabilities
+### User
 
 - View only their assigned tasks
 - Update task status (PENDING → PROCESSING → DONE)
@@ -122,6 +122,16 @@ Each log captures: actor, action type, target task, previous data, new data, tim
 - PostgreSQL 16 (Database)
 - npm or yarn (Package Manager)
 - Docker
+
+## Quick Start with Docker Compose
+
+```bash
+# 1. Clone repository and navigate to backend
+git clone https://github.com/sabbir2809/taskify.git
+cd taskify/backend
+
+docker-compose up --build
+```
 
 ### Backend Setup Without Docker
 
