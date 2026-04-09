@@ -25,7 +25,7 @@ export default function AppLayout() {
 
   const isAdmin = user?.role === "ADMIN";
 
-  // Memoized nav items for performance
+  // nav items
   const navItems = useMemo(() => {
     if (isAdmin) {
       return [

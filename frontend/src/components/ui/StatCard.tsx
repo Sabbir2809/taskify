@@ -10,7 +10,7 @@ interface StatCardProps {
   accent: string;
 }
 
-const StatCard: React.FC<StatCardProps> = ({ label, value, icon, accent }) => {
+const StatCard = ({ label, value, icon, accent }: StatCardProps) => {
   return (
     <Card>
       <div

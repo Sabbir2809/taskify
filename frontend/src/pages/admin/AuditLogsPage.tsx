@@ -15,6 +15,7 @@ export default function AuditLogsPage() {
     limit: 20,
   });
 
+  // --- Queries ---
   const { data, isLoading, refetch } = useQuery({
     queryKey: ["auditLogs", params],
     queryFn: () => auditLogServices.getAuditLogs(params),
@@ -23,6 +24,7 @@ export default function AuditLogsPage() {
   const logs = data?.logs || [];
   const total = data?.meta?.total || 0;
 
+  // --- Table Columns ---
   const columns = [
     {
       title: "Action",

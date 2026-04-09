@@ -1,5 +1,5 @@
+import { UpdateUserTaskCard } from "@/components/task/UpdateUserTaskCard";
 import PageHeader from "@/components/ui/PageHeader";
-import { UserTaskCard } from "@/components/user/UserTaskCard";
 import { STATUS_OPTIONS } from "@/config/constants";
 import { useDebounce } from "@/hooks/useDebounce";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -28,7 +28,7 @@ export default function MyTasksPage() {
 
   const queryClient = useQueryClient();
 
-  // Fetch tasks using TanStack Query
+  // --- Queries ---
   const { data, isLoading } = useQuery({
     queryKey: ["tasks", { ...params, search: debouncedSearch }],
     queryFn: () =>
@@ -39,7 +39,7 @@ export default function MyTasksPage() {
   const total = data?.meta?.total || 0;
   const totalPages = data?.meta?.totalPages || 1;
 
-  // Mutation for updating task status
+  // --- Mutations ---
   const updateStatusMutation = useMutation({
     mutationFn: ({ id, status }: { id: string; status: TaskStatus }) =>
       taskServices.updateTaskStatus(id, status),
@@ -140,7 +140,10 @@ export default function MyTasksPage() {
           <Row gutter={[14, 0]}>
             {tasks.map((task) => (
               <Col xs={24} sm={12} lg={8} key={task.id}>
-                <UserTaskCard task={task} onStatusChange={handleStatusChange} />
+                <UpdateUserTaskCard
+                  task={task}
+                  onStatusChange={handleStatusChange}
+                />
               </Col>
             ))}
           </Row>

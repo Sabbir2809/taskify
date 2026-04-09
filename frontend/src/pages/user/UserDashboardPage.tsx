@@ -7,6 +7,7 @@ import { Clock, ListChecks, RefreshCw, TrendingUp } from "lucide-react";
 import { UserStats } from "../../types";
 
 export default function UserDashboardPage() {
+  // --- Queries ---
   const { data: stats, isLoading } = useQuery<UserStats>({
     queryKey: ["userStats"],
     queryFn: () => dashboardServices.getUserStats(),

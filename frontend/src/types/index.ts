@@ -7,7 +7,7 @@ export type ActionType =
   | "STATUS_CHANGED"
   | "TASK_ASSIGNED";
 
-// ── API response shape ─────────────────────────────────────────
+// API response
 export interface IMeta {
   page?: number;
   limit?: number;
@@ -23,7 +23,7 @@ export interface ApiResponse<T = unknown> {
   data?: T;
 }
 
-// ── Domain models ──────────────────────────────────────────────
+// models(schema)
 export interface User {
   id: string;
   email: string;
@@ -55,7 +55,7 @@ export interface AuditLog {
   createdAt: string;
 }
 
-// ── Auth ───────────────────────────────────────────────────────
+// Auth
 export interface LoginCredentials {
   email: string;
   password: string;
@@ -66,7 +66,7 @@ export interface AuthData {
   user: User;
 }
 
-// ── Dashboard stats ────────────────────────────────────────────
+// Dashboard stats
 export interface AdminStats {
   totalTasks: number;
   pendingTasks: number;
@@ -84,7 +84,7 @@ export interface UserStats {
   completionRate: number;
 }
 
-// ── Query params ───────────────────────────────────────────────
+// Query params
 export interface GetTasksParams {
   page?: number;
   limit?: number;
@@ -107,7 +107,7 @@ export interface GetAuditLogsParams {
   targetTaskId?: string;
 }
 
-// ── Payloads ───────────────────────────────────────────────────
+// Payloads
 export interface CreateTaskPayload {
   title: string;
   description?: string;

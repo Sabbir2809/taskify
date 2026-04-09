@@ -4,12 +4,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Card, Select, Typography } from "antd";
 import { Calendar } from "lucide-react";
 import { useForm } from "react-hook-form";
-import StatusBadge from "../../components/ui/StatusBadge";
 import { Task, TaskStatus } from "../../types";
+import StatusBadge from "../ui/StatusBadge";
 
 const { Text } = Typography;
 
-export function UserTaskCard({
+export function UpdateUserTaskCard({
   task,
   onStatusChange,
 }: {

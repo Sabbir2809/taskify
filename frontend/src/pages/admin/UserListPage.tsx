@@ -19,6 +19,7 @@ export default function UserListPage() {
   const [search, setSearch] = useState("");
   const debouncedSearch = useDebounce(search, 500);
 
+  // --- Queries ---
   const { data, isLoading } = useQuery({
     queryKey: ["users", { ...params, search: debouncedSearch }],
     queryFn: () =>
@@ -28,6 +29,7 @@ export default function UserListPage() {
   const users = data?.users || [];
   const total = data?.meta?.total || 0;
 
+  // --- Table Columns ---
   const columns = [
     {
       title: "Id",

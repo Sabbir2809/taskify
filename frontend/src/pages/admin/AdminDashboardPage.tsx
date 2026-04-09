@@ -31,7 +31,7 @@ import {
   Users,
 } from "lucide-react";
 import { useState } from "react";
-import TaskForm from "../../components/admin/TaskForm";
+import CreateTaskModalForm from "../../components/task/CreateTaskModalForm";
 import StatCard from "../../components/ui/StatCard";
 import { useDebounce } from "../../hooks/useDebounce";
 import { GetTasksParams, Task, TaskStatus } from "../../types";
@@ -324,7 +324,7 @@ export default function AdminDashboardPage() {
       </Card>
 
       {/* Task Form Modal */}
-      <TaskForm
+      <CreateTaskModalForm
         open={formOpen}
         onClose={handleCloseForm}
         onSuccess={() =>

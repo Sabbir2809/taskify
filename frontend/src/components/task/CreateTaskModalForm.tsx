@@ -32,7 +32,7 @@ interface TaskFormProps {
   editingTask?: Task | null;
 }
 
-export default function TaskForm({
+export default function CreateTaskModalForm({
   open,
   onClose,
   onSuccess,
